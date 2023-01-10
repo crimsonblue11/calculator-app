@@ -49,8 +49,12 @@ export default function Calculator() {
                     <button>=</button>
                 </div>
                 <div className="calculator--controls">
-                    <button>BACK</button>
-                    <button>CLEAR</button>
+                    <button 
+                        onClick={() => setCalcState(prevState => prevState.slice(0, prevState.length - 1))}
+                    >BACK</button>
+                    <button 
+                        onClick={() => setCalcState("")}
+                    >CLEAR</button>
                 </div>
             </div>
         </div>
