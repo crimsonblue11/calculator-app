@@ -30,10 +30,6 @@ footer {
     border: 1px solid black;
 }
 
-.calculator--screen:hover {
-    background-color: rgb(215, 255, 255);
-}
-
 .calculator--input {
     display: flex;
     justify-content: center;
