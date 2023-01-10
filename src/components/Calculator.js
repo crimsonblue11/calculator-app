@@ -9,6 +9,72 @@ export default function Calculator() {
         setCalcState(prevState => prevState + value)
     }
 
+    function inputToRPN() {
+        let outQueue = []
+        let opStack = []
+
+        for(let i = 0; i < calcState.length; i++) {
+            const curr = calcState[i]
+
+            if(isNaN(parseInt(curr, 10))) {
+                // must be operator
+                // push to stack, and if 
+                // curr.precendence < peek.precedence 
+                // OR curr.precedence == peek.precendence AND curr.isLeftAssoc
+                // pop curr off the stack
+                
+                while(opStack[opStack.length - 1] !== undefined
+                    && (precedenceOf(curr) < precedenceOf(opStack[opStack.length - 1])
+                    || (precedenceOf(curr) === precedenceOf(opStack[opStack.length - 1]) 
+                        && isLeftAssoc(curr)))) {
+                        outQueue.push(opStack.pop())
+                }
+                opStack.push(curr)
+            } else {
+                // must be number
+                // numbers are always pushed to output
+                outQueue.push(curr)
+            }
+        }
+
+        while(opStack.length != 0) {
+            outQueue.push(opStack.pop())
+        }
+
+        return outQueue.toString()
+    }
+
+    function precedenceOf(op) {
+        let ret;
+
+        switch(op) {
+            case "*":
+            case "/":
+                ret = 2;
+                break;
+            case "+":
+            case "-":
+                ret = 1;
+                break;
+            default:
+                ret = undefined;
+        }
+
+        return ret
+    }
+
+    function isLeftAssoc(op) {
+        return (op === "+" 
+            || op === "-" 
+            || op === "*"
+            || op === "/"
+        )
+    }
+
+    function equalsAction() {
+        console.log(inputToRPN())
+    }
+
     return (
         <div className="calculator">
             <input 
@@ -46,7 +112,7 @@ export default function Calculator() {
                     <button value={"-"} onClick={addToState}>-</button>
                     <button value={"*"} onClick={addToState}>*</button>
                     <button value={"/"} onClick={addToState}>/</button>
-                    <button>=</button>
+                    <button onClick={equalsAction}>=</button>
                 </div>
                 <div className="calculator--controls">
                     <button 
