@@ -1,0 +1,20 @@
+@import url(https://fonts.googleapis.com/css2?family=Inter);
+
+body {
+    font-family: Inter;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+.calculator {
+    align-self: center;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+}
