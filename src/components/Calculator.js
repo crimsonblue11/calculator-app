@@ -10,34 +10,45 @@ export default function Calculator() {
     }
 
     function inputToRPN() {
-        let outQueue = []
-        let opStack = []
+        var opsCounter = 0
 
-        for(let i = 0; i < calcState.length; i++) {
-            const curr = calcState[i]
+        var outQueue = []
+        var opStack = []
+
+        var nums = calcState.replace(/(\+|\-|\*|\/)/g, ",O,").split(",")
+        var ops = calcState.replace(/[0-9]/g, "")
+
+        var inArray = []
+        for(let i = 0; i < nums.length; i++) {
+            if(nums[i] === "O") {
+                inArray.push(ops[opsCounter++])
+            } else {
+                inArray.push(nums[i])
+            }
+        }
+
+        for(let i = 0; i < inArray.length; i++) {
+            const curr = inArray[i]
 
             if(isNaN(parseInt(curr, 10))) {
-                // must be operator
-                // push to stack, and if 
-                // curr.precendence < peek.precedence 
-                // OR curr.precedence == peek.precendence AND curr.isLeftAssoc
-                // pop curr off the stack
+                // operator case
                 
                 while(opStack[opStack.length - 1] !== undefined
                     && (precedenceOf(curr) < precedenceOf(opStack[opStack.length - 1])
-                    || (precedenceOf(curr) === precedenceOf(opStack[opStack.length - 1]) 
-                        && isLeftAssoc(curr)))) {
+                        || (precedenceOf(curr) === precedenceOf(opStack[opStack.length - 1]) 
+                            && isLeftAssoc(curr)))) {
                         outQueue.push(opStack.pop())
-                }
+                    }
                 opStack.push(curr)
             } else {
-                // must be number
+                // else, number case
                 // numbers are always pushed to output
                 outQueue.push(curr)
             }
         }
 
-        while(opStack.length != 0) {
+        // pop all remaining operators from the stack
+        while(opStack.length !== 0) {
             outQueue.push(opStack.pop())
         }
 
@@ -67,8 +78,7 @@ export default function Calculator() {
         return (op === "+" 
             || op === "-" 
             || op === "*"
-            || op === "/"
-        )
+            || op === "/")
     }
 
     function equalsAction() {
