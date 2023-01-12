@@ -16,7 +16,7 @@ export default function Calculator() {
         var opStack = []
 
         var nums = calcState.replace(/(\+|\-|\*|\/)/g, ",O,").split(",")
-        var ops = calcState.replace(/[0-9]/g, "")
+        var ops = calcState.replace(/([0-9]|\.)/g, "")
 
         var inArray = []
         for(let i = 0; i < nums.length; i++) {
@@ -92,7 +92,6 @@ export default function Calculator() {
                 className="calculator--screen"
                 value={calcState}
                 readOnly={true}
-
             />
             <div className="calculator--input">
                 <div className="calculator--numbers">
@@ -112,9 +111,12 @@ export default function Calculator() {
                         <button value={"9"} onClick={addToState}>9</button>
                     </span>
                     <span className="number-row">
-                            <button value={"0"} onClick={addToState}>0</button>
-                            <button value={"("} onClick={addToState}>&#40;</button>
-                            <button value={")"} onClick={addToState}>&#41;</button>
+                        <button value={"0"} onClick={addToState}>0</button>
+                        <button value={"("} onClick={addToState}>&#40;</button>
+                        <button value={")"} onClick={addToState}>&#41;</button>
+                    </span>
+                    <span>
+                        <button value={"."} onClick={addToState}>.</button>
                     </span>
                 </div>
                 <div className="calculator--functions">
