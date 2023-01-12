@@ -15,14 +15,15 @@ export default function Calculator() {
         var outQueue = []
         var opStack = []
 
-        var nums = calcState.replace(/(\+|\-|\*|\/)/g, ",O,").split(",")
+        var nums = calcState.replace(/(\+|-|\*|\/|\(|\))/g, ",O,").split(",")
         var ops = calcState.replace(/([0-9]|\.)/g, "")
 
         var inArray = []
         for(let i = 0; i < nums.length; i++) {
             if(nums[i] === "O") {
                 inArray.push(ops[opsCounter++])
-            } else {
+            } else if(nums[i] !== "") { 
+                // fix for error caused by split treating the gap between ops and brackets as an element
                 inArray.push(nums[i])
             }
         }
@@ -30,7 +31,23 @@ export default function Calculator() {
         for(let i = 0; i < inArray.length; i++) {
             const curr = inArray[i]
 
-            if(isNaN(parseInt(curr, 10))) {
+            if(curr === "(") {
+                // opening parenthesis always pushed to ops
+                
+                opStack.push(curr)
+            } else if(curr === ")") {
+                // closing parenthesis pops all ops between it and the next opening parenthesis
+                // keep popping operators until an opening parenthesis has been found
+                    // if found, pop "(" from ops and finish
+                    // else, pop from ops to output
+
+                var peek = opStack.pop()
+                while(peek !== "(") {
+                    outQueue.push(peek)
+                    peek = opStack.pop()
+                }
+
+            } else if(isNaN(parseInt(curr, 10))) {
                 // operator case
                 
                 while(opStack[opStack.length - 1] !== undefined
