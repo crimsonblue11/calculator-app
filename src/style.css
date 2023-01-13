@@ -25,7 +25,25 @@ footer {
     font-size: smaller;
     position: fixed;
     bottom: 0;
-    padding: 0px 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer--icons {
+    display: flex;
+    gap: 10px;
+    font-size: 32px;
+    margin: 0px 5px;
+}
+
+.footer--icons > a {
+    color: black;
+}
+
+.footer--icons > a:hover {
+    color: grey;
 }
 
 .calculator--screen {
@@ -87,3 +105,26 @@ footer {
 .calculator--controls > button {
     width: 70px;
 }
+
+.header--tabcontainer {
+    display: flex;
+    gap: 10px;
+}
+
+.header--tab {
+    border: none;
+    border-bottom: 5px solid lightgray;
+    padding: 10px;
+    background-color: transparent;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.header--tab:hover {
+    border-bottom: 5px solid grey;
+}
+
+.header--tab:active {
+    border-bottom: 5px solid black;
+}
+
