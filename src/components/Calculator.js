@@ -2,6 +2,7 @@ import React from "react"
 
 export default function Calculator() {
     const [calcState, setCalcState] = React.useState("")
+    const [answer, setAnswer] = React.useState(0)
 
     function addToState(event) {
         const {value} = event.target
@@ -22,6 +23,8 @@ export default function Calculator() {
         for(let i = 0; i < nums.length; i++) {
             if(nums[i] === "O") {
                 inArray.push(ops[opsCounter++])
+            } else if(nums[i] === "ANS") {
+                inArray.push(answer)
             } else if(nums[i] !== "") { 
                 // fix for error caused by split treating the gap between ops and brackets as an element
                 inArray.push(nums[i])
@@ -155,11 +158,15 @@ export default function Calculator() {
     }
 
     function equalsAction() {
-        setCalcState(evaluateRPN())
+        const ans = evaluateRPN()
+
+        setCalcState(ans)
+        setAnswer(ans)
     }
 
     function clearAction() {
         setCalcState("")
+        // don't reset the answer, we still need it
     }
 
     return (
@@ -192,8 +199,9 @@ export default function Calculator() {
                         <button value={"("} onClick={addToState}>&#40;</button>
                         <button value={")"} onClick={addToState}>&#41;</button>
                     </span>
-                    <span>
+                    <span className="number-row">
                         <button value={"."} onClick={addToState}>.</button>
+                        <button value={"ANS"} onClick={addToState}>ANS</button>
                     </span>
                 </div>
                 <div className="calculator--functions">
