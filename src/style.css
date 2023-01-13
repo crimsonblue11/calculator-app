@@ -105,3 +105,26 @@ footer {
 .calculator--controls > button {
     width: 70px;
 }
+
+.header--tabcontainer {
+    display: flex;
+    gap: 10px;
+}
+
+.header--tab {
+    border: none;
+    border-bottom: 5px solid lightgray;
+    padding: 10px;
+    background-color: transparent;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.header--tab:hover {
+    border-bottom: 5px solid grey;
+}
+
+.header--tab:active {
+    border-bottom: 5px solid black;
+}
+
