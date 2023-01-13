@@ -2,6 +2,7 @@ import React from "react"
 import Calculator from "./components/Calculator"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
+import About from "./components/About"
 
 export default function App() {
     const [pageState, setPageState] = React.useState(0)
@@ -12,7 +13,7 @@ export default function App() {
             page = <Calculator />
             break
         case 1:
-            page = <h1>Under construction!</h1>
+            page = <About />
             break
         default:
             page = <h1>Whoops, something went wrong.</h1>
