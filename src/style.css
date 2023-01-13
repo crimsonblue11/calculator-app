@@ -11,7 +11,9 @@ main {
 }
 
 .calculator {
-    width: 400px;
+    max-width: 500px;
+    min-width: 400px;
+    width: 60%;
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -20,8 +22,10 @@ main {
 }
 
 footer {
+    font-size: smaller;
     position: fixed;
     bottom: 0;
+    padding: 0px 5px;
 }
 
 .calculator--screen {
@@ -30,43 +34,39 @@ footer {
     border: 1px solid black;
     cursor: default;
     outline: none;
+    border-radius: 10px;
 }
 
 .calculator--input {
     display: flex;
-    justify-content: center;
-    background-color: grey;
     padding: 20px 10px;
-    gap: 20px;
-}
-
-.calculator--numbers {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    gap: 5px;
 }
 
 .calculator button {
     font-size: 20px;
-    width: 50px;
-    height: 50px;
-    border: 1px solid black;
+    width: 90px;
+    height: 60px;
+    border: none;
+    border-radius: 10px;
 }
 
 .number-row {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .calculator--functions {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 5px;
 }
 
 .calculator--functions > button {
-    width: 35px;
-    height: 35px;
+    width: 90px;
+    height: 60px;
+    font-size: 24px;
     background-color: #999999;
 }
 
@@ -81,10 +81,9 @@ footer {
 .calculator--controls {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 
 .calculator--controls > button {
     width: 70px;
 }
-
