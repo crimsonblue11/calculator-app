@@ -28,6 +28,8 @@ footer {
     padding: 20px;
     font-size: 32px;
     border: 1px solid black;
+    cursor: default;
+    outline: none;
 }
 
 .calculator--input {
@@ -85,3 +87,4 @@ footer {
 .calculator--controls > button {
     width: 70px;
 }
+
