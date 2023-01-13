@@ -25,7 +25,25 @@ footer {
     font-size: smaller;
     position: fixed;
     bottom: 0;
-    padding: 0px 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer--icons {
+    display: flex;
+    gap: 10px;
+    font-size: 32px;
+    margin: 0px 5px;
+}
+
+.footer--icons > a {
+    color: black;
+}
+
+.footer--icons > a:hover {
+    color: grey;
 }
 
 .calculator--screen {
