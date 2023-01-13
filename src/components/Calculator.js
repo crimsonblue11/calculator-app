@@ -69,7 +69,7 @@ export default function Calculator() {
             outQueue.push(opStack.pop())
         }
 
-        return outQueue.toString()
+        return outQueue
     }
 
     function precedenceOf(op) {
@@ -92,14 +92,74 @@ export default function Calculator() {
     }
 
     function isLeftAssoc(op) {
-        return (op === "+" 
-            || op === "-" 
-            || op === "*"
-            || op === "/")
+        return (op === "+" || op === "-" 
+            || op === "*" || op === "/")
+    }
+
+    function evaluateOperator(op1, op2, operator) {
+        let ret = 0
+
+        switch(operator) {
+            case "+":
+                ret = op1 + op2
+                break
+            case "-":
+                ret = op1 - op2
+                break
+            case "*":
+                ret = op1 * op2
+                break
+            case "/":
+                ret = op1 / op2
+                break
+            default:
+                ret = NaN
+                break
+        }
+
+        return ret
+    }
+
+    function evaluateRPN() {
+        const rpn = inputToRPN()
+
+        const operands = []
+
+        for(let i = 0; i < rpn.length; i++) {
+            const curr = rpn[i]
+            const currNum = parseFloat(curr)
+
+            if(isNaN(currNum)) {
+                if(operands.length < 2) {
+                    console.log("Error - bad input")
+                }
+
+                const op1 = operands.pop()
+                const op2 = operands.pop()
+
+                const opNew = evaluateOperator(op1, op2, curr)
+
+                operands.push(opNew)
+            } else {
+                operands.push(currNum)
+            }
+        }
+
+        const out = parseFloat(operands[0].toFixed(3))
+
+        return out
+
+        // loop through output
+        // if number, add to operands
+        // if operator, evaluate the last two operands
     }
 
     function equalsAction() {
-        console.log(inputToRPN())
+        setCalcState(evaluateRPN())
+    }
+
+    function clearAction() {
+        setCalcState("")
     }
 
     return (
@@ -148,7 +208,7 @@ export default function Calculator() {
                         onClick={() => setCalcState(prevState => prevState.slice(0, prevState.length - 1))}
                     >BACK</button>
                     <button 
-                        onClick={() => setCalcState("")}
+                        onClick={clearAction}
                     >CLEAR</button>
                 </div>
             </div>
