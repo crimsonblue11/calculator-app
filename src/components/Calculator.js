@@ -2,7 +2,7 @@ import React from "react"
 
 export default function Calculator() {
     const [calcState, setCalcState] = React.useState("")
-    const [answer, setAnswer] = React.useState(0)
+    const [answer, setAnswer] = React.useState("0")
 
     function addToState(event) {
         const {value} = event.target
@@ -17,7 +17,7 @@ export default function Calculator() {
         var opStack = []
 
         var nums = calcState.replace(/(\+|-|\*|\/|\(|\))/g, ",O,").split(",")
-        var ops = calcState.replace(/([0-9]|\.)/g, "")
+        var ops = calcState.replace(/([0-9]|\.|ANS)/g, "")
 
         var inArray = []
         for(let i = 0; i < nums.length; i++) {
@@ -30,6 +30,8 @@ export default function Calculator() {
                 inArray.push(nums[i])
             }
         }
+
+        console.log(inArray)
 
         for(let i = 0; i < inArray.length; i++) {
             const curr = inArray[i]
