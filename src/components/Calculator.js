@@ -1,6 +1,7 @@
 import React from "react"
+import NumberButton from "./NumberButton"
 
-export default function Calculator() {
+export default function Calculator(props) {
     const [calcState, setCalcState] = React.useState("")
     const [answer, setAnswer] = React.useState("0")
 
@@ -181,33 +182,35 @@ export default function Calculator() {
             />
             <div className="calculator--input">
                 <span className="number-row">
-                    <button value={"1"} onClick={addToState}>1</button>
-                    <button value={"2"} onClick={addToState}>2</button>
-                    <button value={"3"} onClick={addToState}>3</button>
-                    <button value={"4"} onClick={addToState}>4</button>
-                    <button value={"5"} onClick={addToState}>5</button>
-                    <button value={"6"} onClick={addToState}>6</button>
-                    <button value={"7"} onClick={addToState}>7</button>
-                    <button value={"8"} onClick={addToState}>8</button>
-                    <button value={"9"} onClick={addToState}>9</button>
-                    <button value={"0"} onClick={addToState}>0</button>
-                    <button value={"("} onClick={addToState}>&#40;</button>
-                    <button value={")"} onClick={addToState}>&#41;</button>
-                    <button value={"."} onClick={addToState}>.</button>
-                    <button value={"ANS"} onClick={addToState}>ANS</button>
+                    <NumberButton style={props.style} value={"1"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"2"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"3"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"4"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"5"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"6"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"7"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"8"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"9"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"0"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"("} onClick={addToState} />
+                    <NumberButton style={props.style} value={")"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"."} onClick={addToState} />
+                    <NumberButton style={props.style} value={"ANS"} onClick={addToState} />
                 </span>
                 <span className="calculator--functions">
-                    <button value={"+"} onClick={addToState}>+</button>
-                    <button value={"-"} onClick={addToState}>-</button>
-                    <button value={"*"} onClick={addToState}>*</button>
-                    <button value={"/"} onClick={addToState}>/</button>
-                    <button onClick={equalsAction}>=</button>
+                    <NumberButton style={props.style} value={"+"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"-"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"*"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"/"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"="} onClick={equalsAction} />
                 </span>
                 <span className="calculator--controls">
                     <button 
+                        style={props.style}
                         onClick={() => setCalcState(prevState => prevState.slice(0, prevState.length - 1))}
                     >BACK</button>
                     <button 
+                        style={props.style}
                         onClick={clearAction}
                     >CLEAR</button>
                 </span>

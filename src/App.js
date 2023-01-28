@@ -6,11 +6,22 @@ import About from "./components/About"
 
 export default function App() {
     const [pageState, setPageState] = React.useState(0)
-
+    const [nightMode, setNightMode] = React.useState(false)
+    
+    var style = {
+        backgroundColor: nightMode ? "#404258" : "white",
+        color: nightMode ? "white" : "black"
+    }
+    
+    var buttonStyle = {
+        backgroundColor: nightMode ? "#474E68" : "lightgrey",
+        color: nightMode ? "white" : "black"
+    }
+    
     let page;
     switch(pageState) {
         case 0:
-            page = <Calculator />
+            page = <Calculator style={buttonStyle} />
             break
         case 1:
             page = <About />
@@ -24,11 +35,19 @@ export default function App() {
         setPageState(parseInt(event.target.value,10))
     }
 
+    function nightToggle() {
+        setNightMode(prevValue => !prevValue)
+    }
+
     return (
-        <main className="container">
-            <Header onClick={changeTab} />
+        <main style={style}>
+            <Header 
+                onClick={changeTab} 
+                nightToggle={nightToggle}
+                isNight={nightMode}
+                style={style} />
             {page}
-            <Footer />
+            <Footer style={style} />
         </main>
     )
 }

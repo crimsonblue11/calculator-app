@@ -6,6 +6,7 @@ body {
 }
 
 main {
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -85,7 +86,6 @@ footer {
     width: 90px;
     height: 60px;
     font-size: 24px;
-    background-color: #999999;
 }
 
 .calculator--functions > button:hover {
@@ -104,6 +104,11 @@ footer {
 
 .calculator--controls > button {
     width: 70px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
 }
 
 .header--tabcontainer {
@@ -130,4 +135,8 @@ footer {
 
 article {
     margin: 10px;
+}
+
+.header--toggle {
+    margin: 5px;
 }
