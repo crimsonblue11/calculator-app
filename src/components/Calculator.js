@@ -6,9 +6,25 @@ export default function Calculator(props) {
     const [answer, setAnswer] = React.useState("0")
 
     function addToState(event) {
-        const {value} = event.target
+        if(event.type === "click") {
+            // from on-screen button            
+            setCalcState(prevState => prevState + event.target.value)
+        } else {
+            // from keyboard input, need to sanity check
+            const numEx = /[0-9]|\+|-|\*|\/|\(|\)|\./
 
-        setCalcState(prevState => prevState + value)
+            if(numEx.test(event.key) === true) {
+                setCalcState(prevState => prevState + event.key)
+                if(event.key === "/") {
+                    event.preventDefault()
+                }
+            } else if(event.key === "=" || event.key === "Enter") {
+                equalsAction()
+                event.preventDefault()
+            } else {
+                console.log(event.key)
+            }
+        }
     }
 
     function inputToRPN() {
@@ -31,8 +47,6 @@ export default function Calculator(props) {
                 inArray.push(nums[i])
             }
         }
-
-        console.log(inArray)
 
         for(let i = 0; i < inArray.length; i++) {
             const curr = inArray[i]
@@ -171,6 +185,18 @@ export default function Calculator(props) {
         setCalcState("")
         // don't reset the answer, we still need it
     }
+
+    React.useEffect(() => {
+        function watchKeys(event) {
+            addToState(event)
+        }
+
+        window.addEventListener('keydown', watchKeys)
+
+        return function() {
+            window.removeEventListener('keydown',watchKeys)
+        }
+    })
 
     return (
         <div className="calculator">
