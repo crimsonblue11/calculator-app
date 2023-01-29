@@ -15,8 +15,12 @@ export default function Calculator(props) {
 
             if(numEx.test(event.key) === true) {
                 setCalcState(prevState => prevState + event.key)
+                if(event.key === "/") {
+                    event.preventDefault()
+                }
             } else if(event.key === "=" || event.key === "Enter") {
                 equalsAction()
+                event.preventDefault()
             } else {
                 console.log(event.key)
             }
