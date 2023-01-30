@@ -31,10 +31,17 @@ export default function App() {
             break
     }
 
+    /**
+     * Function to handle changing the page tab.
+     * @param {Event} event - event object to parse which tab to change to.
+     */
     function changeTab(event) {
         setPageState(parseInt(event.target.value,10))
     }
 
+    /**
+     * Function to handle toggling night mode.
+     */
     function nightToggle() {
         setNightMode(prevValue => !prevValue)
     }
