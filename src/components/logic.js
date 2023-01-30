@@ -1,5 +1,5 @@
 const NUMREGEX = /([0-9]|\.|ANS)/g;
-const OPREGEX = /(\+|-|\*|\/|\(|\))/g;
+const OPREGEX = /(\+|-|\*|\/|\(|\)|\^)/g;
 
 /**
  * Function for converting string input to reverse polish notation via
@@ -80,6 +80,9 @@ function precedenceOf(op) {
     let ret;
 
     switch(op) {
+        case "^":
+            ret = 3;
+            break;
         case "*":
         case "/":
             ret = 2;
@@ -129,6 +132,9 @@ function evaluateOperator(op1, op2, operator) {
             break;
         case "/":
             ret = op1 / op2;
+            break;
+        case "^":
+            ret = op1 ** op2;
             break;
         default:
             ret = NaN;
