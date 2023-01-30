@@ -1,200 +1,69 @@
 import React from "react"
 import NumberButton from "./NumberButton"
+import evaluateRPN from "./logic"
 
 export default function Calculator(props) {
-    const [calcState, setCalcState] = React.useState("")
-    const [answer, setAnswer] = React.useState("0")
+    const [calcState, setCalcState] = React.useState("");
+    const [answer, setAnswer] = React.useState("0");
 
+    /**
+     * Adds an operator or operand to calcState depending on 
+     * type and value of event received. Can also evaluate by calling
+     * equalsAction.
+     * @param {Event} event - event representing user input. This could be a click
+     * event, in which case the input is from a button and is simply added to the
+     * state, or a keyboardEvent, in which case the input is sanitised and then
+     * handled.
+     */
     function addToState(event) {
         if(event.type === "click") {
-            // from on-screen button            
-            setCalcState(prevState => prevState + event.target.value)
+            // from button
+            setCalcState(prevState => prevState + event.target.value);
         } else {
-            // from keyboard input, need to sanity check
-            const numEx = /[0-9]|\+|-|\*|\/|\(|\)|\./
+            // from keyboard input, so need to sanity check
+            const keyboardRegex = /[0-9]|\+|-|\*|\/|\(|\)|\./;
 
-            if(numEx.test(event.key) === true) {
-                setCalcState(prevState => prevState + event.key)
-                if(event.key === "/") {
-                    event.preventDefault()
-                }
+            if(keyboardRegex.test(event.key) === true) {
+                setCalcState(prevState => prevState + event.key);
+                event.preventDefault();
             } else if(event.key === "=" || event.key === "Enter") {
-                equalsAction()
-                event.preventDefault()
-            } else {
-                console.log(event.key)
+                equalsAction();
+                event.preventDefault();
             }
         }
     }
 
-    function inputToRPN() {
-        var opsCounter = 0
-
-        var outQueue = []
-        var opStack = []
-
-        var nums = calcState.replace(/(\+|-|\*|\/|\(|\))/g, ",O,").split(",")
-        var ops = calcState.replace(/([0-9]|\.|ANS)/g, "")
-
-        var inArray = []
-        for(let i = 0; i < nums.length; i++) {
-            if(nums[i] === "O") {
-                inArray.push(ops[opsCounter++])
-            } else if(nums[i] === "ANS") {
-                inArray.push(answer)
-            } else if(nums[i] !== "") { 
-                // fix for error caused by split treating the gap between ops and brackets as an element
-                inArray.push(nums[i])
-            }
-        }
-
-        for(let i = 0; i < inArray.length; i++) {
-            const curr = inArray[i]
-
-            if(curr === "(") {
-                // opening parenthesis always pushed to ops
-                
-                opStack.push(curr)
-            } else if(curr === ")") {
-                // closing parenthesis pops all ops between it and the next opening parenthesis
-                // keep popping operators until an opening parenthesis has been found
-                    // if found, pop "(" from ops and finish
-                    // else, pop from ops to output
-
-                var peek = opStack.pop()
-                while(peek !== "(") {
-                    outQueue.push(peek)
-                    peek = opStack.pop()
-                }
-
-            } else if(isNaN(parseInt(curr, 10))) {
-                // operator case
-                
-                while(opStack[opStack.length - 1] !== undefined
-                    && (precedenceOf(curr) < precedenceOf(opStack[opStack.length - 1])
-                        || (precedenceOf(curr) === precedenceOf(opStack[opStack.length - 1]) 
-                            && isLeftAssoc(curr)))) {
-                        outQueue.push(opStack.pop())
-                    }
-                opStack.push(curr)
-            } else {
-                // else, number case
-                // numbers are always pushed to output
-                outQueue.push(curr)
-            }
-        }
-
-        // pop all remaining operators from the stack
-        while(opStack.length !== 0) {
-            outQueue.push(opStack.pop())
-        }
-
-        return outQueue
-    }
-
-    function precedenceOf(op) {
-        let ret;
-
-        switch(op) {
-            case "*":
-            case "/":
-                ret = 2;
-                break;
-            case "+":
-            case "-":
-                ret = 1;
-                break;
-            default:
-                ret = undefined;
-        }
-
-        return ret
-    }
-
-    function isLeftAssoc(op) {
-        return (op === "+" || op === "-" 
-            || op === "*" || op === "/")
-    }
-
-    function evaluateOperator(op1, op2, operator) {
-        let ret = 0
-
-        switch(operator) {
-            case "+":
-                ret = op1 + op2
-                break
-            case "-":
-                ret = op1 - op2
-                break
-            case "*":
-                ret = op1 * op2
-                break
-            case "/":
-                ret = op1 / op2
-                break
-            default:
-                ret = NaN
-                break
-        }
-
-        return ret
-    }
-
-    function evaluateRPN() {
-        const rpn = inputToRPN()
-
-        const operands = []
-
-        for(let i = 0; i < rpn.length; i++) {
-            const curr = rpn[i]
-            const currNum = parseFloat(curr)
-
-            if(isNaN(currNum)) {
-                if(operands.length < 2) {
-                    console.log("Error - bad input")
-                }
-
-                const op1 = operands.pop()
-                const op2 = operands.pop()
-
-                const opNew = evaluateOperator(op1, op2, curr)
-
-                operands.push(opNew)
-            } else {
-                operands.push(currNum)
-            }
-        }
-
-        const out = parseFloat(operands[0].toFixed(3))
-
-        return out
-
-        // loop through output
-        // if number, add to operands
-        // if operator, evaluate the last two operands
-    }
-
+    /**
+     * Method to handle evaluating the input. Calls equalsAction, then
+     * sets calcState and answer to this new value.
+     */
     function equalsAction() {
-        const ans = evaluateRPN()
+        const ans = evaluateRPN(calcState, answer);
 
-        setCalcState(ans)
-        setAnswer(ans)
+        setCalcState(ans);
+        setAnswer(ans);
     }
 
+    /**
+     * Method to handle clearing the calculator screen. Sets calcState to empty
+     * string.
+     */
     function clearAction() {
-        setCalcState("")
+        setCalcState("");
         // don't reset the answer, we still need it
     }
 
+    // sets keydown listener on window to handle keyboard input
+    // also cleanup function
     React.useEffect(() => {
         function watchKeys(event) {
-            addToState(event)
+            addToState(event);
         }
 
-        window.addEventListener('keydown', watchKeys)
+        window.addEventListener('keydown', watchKeys);
 
         return function() {
-            window.removeEventListener('keydown',watchKeys)
+            window.removeEventListener('keydown',watchKeys);
         }
     })
 
