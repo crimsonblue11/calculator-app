@@ -21,7 +21,7 @@ function inputToRPN(val, ans) {
     for(let i = 0; i < nums.length; i++) {
         if(nums[i] === "O") {
             inArray.push(ops[opsCounter++]);
-        } else if(nums[i] === "ANS") {
+        } else if(nums[i] === "A") {
             inArray.push(ans);
         } else if(nums[i] !== "") { 
             // fix for error caused by split treating the gap between ops and brackets as an element
@@ -175,7 +175,7 @@ export default function evaluateRPN(val, ans) {
     }
 
     // output is the only value (hopefully) in the operand stack
-    const out = parseFloat(operands[0].toFixed(3));
+    const out = operands[0].toString();
 
     return out;
 }
