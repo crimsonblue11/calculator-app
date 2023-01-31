@@ -24,18 +24,24 @@ export default function Calculator(props) {
             const keyboardRegex = /[0-9]|\+|-|\*|\/|\(|\)|\.|\^/;
 
             if(keyboardRegex.test(event.key) === true) {
+                // case for regular input (i.e. numbers or operators)
                 setCalcState(prevState => prevState + event.key);
                 event.preventDefault();
             } else if(event.key === "=" || event.key === "Enter") {
+                // case for "=" or enter i.e. evaluation
                 equalsAction();
                 event.preventDefault();
+            } else if(event.key === "Backspace") {
+                // case for backspace
+                backAction();
             }
         }
     }
 
     /**
-     * Method to handle evaluating the input. Calls equalsAction, then
-     * sets calcState and answer to this new value.
+     * Function to handle evaluating the input. 
+     * Calls equalsAction, then sets calcState and answer to 
+     * the returned value.
      */
     function equalsAction() {
         const ans = evaluateRPN(calcState, answer);
@@ -45,12 +51,21 @@ export default function Calculator(props) {
     }
 
     /**
-     * Method to handle clearing the calculator screen. Sets calcState to empty
-     * string.
+     * Function to handle clearing the calculator screen. 
+     * Sets calcState to an empty string.
+     * Notably answer is not reset, since users might still
+     * need it in other equations.
      */
     function clearAction() {
         setCalcState("");
-        // don't reset the answer, we still need it
+    }
+
+    /**
+     * Function to handle removing the last character of 
+     * calcState.
+     */
+    function backAction() {
+        setCalcState(prevState => prevState.slice(0, prevState.length - 1));
     }
 
     // sets keydown listener on window to handle keyboard input
@@ -91,7 +106,7 @@ export default function Calculator(props) {
                     <NumberButton style={props.style} value={")"} onClick={addToState} />
                     <NumberButton style={props.style} value={"."} onClick={addToState} />
                     <NumberButton style={props.style} value={"^"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"ANS"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"A"} onClick={addToState} />
                 </span>
                 <span className="calculator--functions">
                     <NumberButton style={props.style} value={"+"} onClick={addToState} />
@@ -103,7 +118,7 @@ export default function Calculator(props) {
                 <span className="calculator--controls">
                     <button 
                         style={props.style}
-                        onClick={() => setCalcState(prevState => prevState.slice(0, prevState.length - 1))}
+                        onClick={backAction}
                     >BACK</button>
                     <button 
                         style={props.style}
