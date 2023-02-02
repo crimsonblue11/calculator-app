@@ -5,6 +5,7 @@ import evaluateRPN from "./logic"
 export default function Calculator(props) {
     const [calcState, setCalcState] = React.useState("");
     const [answer, setAnswer] = React.useState("0");
+    const [displayOutput, setDisplayOutput] = React.useState(false)
 
     /**
      * Adds an operator or operand to calcState depending on 
@@ -16,6 +17,10 @@ export default function Calculator(props) {
      * handled.
      */
     function addToState(event) {
+        if(displayOutput) {
+            setDisplayOutput(false);
+        }
+
         if(event.type === "click") {
             // from button
             setCalcState(prevState => prevState + event.target.value);
@@ -46,8 +51,8 @@ export default function Calculator(props) {
     function equalsAction() {
         const ans = evaluateRPN(calcState, answer);
 
-        setCalcState(ans);
         setAnswer(ans);
+        setDisplayOutput(true);
     }
 
     /**
@@ -57,6 +62,7 @@ export default function Calculator(props) {
      * need it in other equations.
      */
     function clearAction() {
+        setDisplayOutput(false);
         setCalcState("");
     }
 
@@ -65,6 +71,7 @@ export default function Calculator(props) {
      * calcState.
      */
     function backAction() {
+        setDisplayOutput(false);
         setCalcState(prevState => prevState.slice(0, prevState.length - 1));
     }
 
@@ -84,12 +91,14 @@ export default function Calculator(props) {
 
     return (
         <div className="calculator">
-            <input 
-                type="text" 
-                className="calculator--screen"
-                value={calcState}
-                readOnly={true}
-            />
+            <div className="calculator--screen">
+                <p className="calculator--screen--input">{calcState}</p>
+                <p className="calculator--screen--output">
+                    {
+                        displayOutput && "=" + answer
+                    }
+                </p>
+            </div>
             <div className="calculator--input">
                 <span className="number-row">
                     <NumberButton style={props.style} value={"1"} onClick={addToState} />
