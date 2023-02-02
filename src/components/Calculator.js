@@ -1,11 +1,11 @@
-import React from "react"
+import {React, useState, useEffect} from "react"
 import NumberButton from "./NumberButton"
 import evaluateRPN from "./logic"
 
-export default function Calculator(props) {
-    const [calcState, setCalcState] = React.useState("");
-    const [answer, setAnswer] = React.useState("0");
-    const [displayOutput, setDisplayOutput] = React.useState(false)
+export default function Calculator({isNight}) {
+    const [calcState, setCalcState] = useState("");
+    const [answer, setAnswer] = useState("0");
+    const [displayOutput, setDisplayOutput] = useState(false);
 
     /**
      * Adds an operator or operand to calcState depending on 
@@ -17,31 +17,33 @@ export default function Calculator(props) {
      * handled.
      */
     function addToState(event) {
+        const {type, target, key} = event;
+        const {value} = target;
+
         if(displayOutput) {
             setDisplayOutput(false);
         }
 
-        if(event.type === "click") {
-            console.log(event);
+        if(type === "click") {
             // from button
-            if(event.target.value === "Ans") {
-                setCalcState(prevState => prevState + 'A');
+            if(value === "Ans") {
+                setCalcState(prevState => prevState + "A");
             } else {
-                setCalcState(prevState => prevState + event.target.value);
+                setCalcState(prevState => prevState + value);
             }
         } else {
             // from keyboard input, so need to sanity check
             const keyboardRegex = /[0-9]|\+|-|\*|\/|\(|\)|\.|\^|A/;
 
-            if(keyboardRegex.test(event.key) === true) {
+            if(keyboardRegex.test(key)) {
                 // case for regular input (i.e. numbers or operators)
-                setCalcState(prevState => prevState + event.key);
+                setCalcState(prevState => prevState + key);
                 event.preventDefault();
-            } else if(event.key === "=" || event.key === "Enter") {
+            } else if(key === "=" || key === "Enter") {
                 // case for "=" or enter i.e. evaluation
                 equalsAction();
                 event.preventDefault();
-            } else if(event.key === "Backspace") {
+            } else if(key === "Backspace") {
                 // case for backspace
                 backAction();
             }
@@ -82,7 +84,7 @@ export default function Calculator(props) {
 
     // sets keydown listener on window to handle keyboard input
     // also cleanup function
-    React.useEffect(() => {
+    useEffect(() => {
         function watchKeys(event) {
             addToState(event);
         }
@@ -96,7 +98,7 @@ export default function Calculator(props) {
 
     return (
         <div className="calculator">
-            <div className="calculator--screen">
+            <div className={isNight ? "calculator--screen--night" : "calculator--screen--day"}>
                 <p className="calculator--screen--input">{calcState}</p>
                 <p className="calculator--screen--output">
                     {
@@ -105,37 +107,35 @@ export default function Calculator(props) {
                 </p>
             </div>
             <div className="calculator--input">
-                <span className="number-row">
-                    <NumberButton style={props.style} value={"1"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"2"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"3"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"4"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"5"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"6"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"7"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"8"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"9"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"0"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"("} onClick={addToState} />
-                    <NumberButton style={props.style} value={")"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"."} onClick={addToState} />
-                    <NumberButton style={props.style} value={"^"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"Ans"} onClick={addToState} />
+                <span className={isNight ? "number-row--night" : "number-row--day"}>
+                    <NumberButton value={"1"} onClick={addToState} />
+                    <NumberButton value={"2"} onClick={addToState} />
+                    <NumberButton value={"3"} onClick={addToState} />
+                    <NumberButton value={"4"} onClick={addToState} />
+                    <NumberButton value={"5"} onClick={addToState} />
+                    <NumberButton value={"6"} onClick={addToState} />
+                    <NumberButton value={"7"} onClick={addToState} />
+                    <NumberButton value={"8"} onClick={addToState} />
+                    <NumberButton value={"9"} onClick={addToState} />
+                    <NumberButton value={"0"} onClick={addToState} />
+                    <NumberButton value={"("} onClick={addToState} />
+                    <NumberButton value={")"} onClick={addToState} />
+                    <NumberButton value={"."} onClick={addToState} />
+                    <NumberButton value={"^"} onClick={addToState} />
+                    <NumberButton value={"Ans"} onClick={addToState} />
                 </span>
-                <span className="calculator--functions">
-                    <NumberButton style={props.style} value={"+"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"-"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"*"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"/"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"="} onClick={equalsAction} />
+                <span className={isNight ? "number-row--night" : "number-row--day"}>
+                    <NumberButton value={"+"} onClick={addToState} />
+                    <NumberButton value={"-"} onClick={addToState} />
+                    <NumberButton value={"*"} onClick={addToState} />
+                    <NumberButton value={"/"} onClick={addToState} />
+                    <NumberButton value={"="} onClick={equalsAction} />
                 </span>
-                <span className="calculator--controls">
-                    <button 
-                        style={props.style}
+                <span className={isNight ? "number-row--night" : "number-row--day"}>
+                    <button
                         onClick={backAction}
                     >BACK</button>
-                    <button 
-                        style={props.style}
+                    <button
                         onClick={clearAction}
                     >CLEAR</button>
                 </span>

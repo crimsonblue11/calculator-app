@@ -50,7 +50,7 @@ function inputToRPN(val, ans) {
             
             var canPopOperators = precedenceOf(curr) < precedenceOf(opStack[opStack.length - 1]) 
                 || (precedenceOf(curr) === precedenceOf(opStack[opStack.length - 1]) 
-                && isLeftAssoc(curr))
+                && isLeftAssoc(curr));
 
             while(opStack[opStack.length - 1] !== undefined && canPopOperators) {
                     outQueue.push(opStack.pop());
