@@ -1,15 +1,13 @@
 import React from "react"
 
-export default function NumberButton(props) {
+export default function NumberButton({value, onClick}) {
 
     return (
         <button
-            className="numberButton"
-            style={props.style}
-            value={props.value}
-            onClick={props.onClick}
+            value={value}
+            onClick={onClick}
         >
-            {props.value}
+            {value}
         </button>
     )
 }

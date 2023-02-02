@@ -1,20 +1,18 @@
 import React from "react"
 
-export default function Header(props) {
+export default function Header({isNight, onClick, nightToggle}) {
     return (
-        <header className={props.colorMode}>
+        <header className={isNight ? "header--night" : "header--day"}>
             <div className="header--tabcontainer">
                 <button
-                    onClick={props.onClick} 
-                    className="header--tab" 
-                    value={0}
-                    style={props.style}>
+                    onClick={onClick} 
+                    className={isNight ? "header--tab--night" : "header--tab--day"} 
+                    value={0}>
                     Calculator
                 </button>
                 <button
-                    style={props.style}
-                    onClick={props.onClick} 
-                    className="header--tab" 
+                    onClick={onClick} 
+                    className={isNight ? "header--tab--night" : "header--tab--day"}
                     value={1}>
                     About
                 </button>
@@ -24,8 +22,8 @@ export default function Header(props) {
                 <input
                     id="night-toggle"
                     type="checkbox"
-                    value={props.isNight}
-                    onChange={props.nightToggle}
+                    value={isNight}
+                    onChange={nightToggle}
                 />
             </span>
         </header>

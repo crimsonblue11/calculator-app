@@ -5,10 +5,20 @@ body {
     margin: 0;
 }
 
-main {
+.main--day, .main--night {
     height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.main--day {
+    background-color: white;
+    color: black;
+}
+
+.main--night {
+    color: white;
+    background-color: #404258;
 }
 
 footer {
@@ -19,20 +29,38 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0px 5px;
+    background-color: inherit;
 }
 
-.footer--icons {
-    display: flex;
-    gap: 10px;
-    font-size: 32px;
-    margin: 0px 5px;
-}
-
-.footer--icons > a {
+.footer--day {
     color: black;
 }
 
-.footer--icons > a:hover {
+.footer--night {
+    color: white;
+}
+
+.footer--icons--day, .footer--icons--night {
+    display: flex;
+    gap: 10px;
+    font-size: 32px;
+    margin: 0px 8px;
+}
+
+.footer--icons--day > a {
+    color: black;
+}
+
+.footer--icons--day > a:hover {
+    color: grey;
+}
+
+.footer--icons--night > a {
+    color: white;
+}
+
+.footer--icons--night > a:hover {
     color: grey;
 }
 
@@ -47,11 +75,19 @@ footer {
     margin-top: 20px;
 }
 
-.calculator--screen {
+.calculator--screen--day, .calculator--screen--night {
     padding: 10px;
     font-size: 32px;
     border: 1px solid black;
     border-radius: 10px;
+}
+
+.calculator--screen--day {
+    background-color: white;
+}
+
+.calculator--screen--night {
+    background-color: #474E68;
 }
 
 .calculator--screen--input {
@@ -84,40 +120,40 @@ footer {
     border-radius: 10px;
 }
 
-.number-row {
+.number-row--day, .number-row--night {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
 }
 
-.calculator--functions {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.number-row--day > button {
+    color: black;
+    background-color: #ebebeb;
 }
 
-.calculator--functions > button {
-    width: 90px;
-    height: 60px;
-    font-size: 24px;
+.number-row--day > button:hover {
+    color: black;
+    background-color: #c5c5c5;
 }
 
-.calculator--functions > button:hover {
-    background-color: #acacac;
+.number-row--day > button:active {
+    color: black;
+    background-color: #6b6b6b;
 }
 
-.calculator--functions > button:active {
-    background-color: #6e6e6e;
+.number-row--night > button {
+    color: white;
+    background-color: #474E68;
 }
 
-.calculator--controls {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.number-row--night > button:hover {
+    color: white;
+    background-color: #525a79;
 }
 
-.calculator--controls > button {
-    width: 70px;
+.number-row--night > button:active {
+    color: white;
+    background-color: #7985b1;
 }
 
 header {
@@ -125,26 +161,51 @@ header {
     justify-content: space-between;
 }
 
+.header--day {
+    color: black;
+}
+
+.header--night {
+    color: white;
+}
+
 .header--tabcontainer {
     display: flex;
     gap: 10px;
 }
 
-.header--tab {
+.header--tab--day, .header--tab--night {
     border: none;
-    border-bottom: 5px solid lightgray;
     padding: 10px;
     background-color: transparent;
     font-size: 20px;
     margin-bottom: 10px;
 }
 
-.header--tab:hover {
+.header--tab--day {
+    color: black;
+    border-bottom: 5px solid lightgray;
+}
+
+.header--tab--day:hover {
     border-bottom: 5px solid grey;
 }
 
-.header--tab:active {
+.header--tab--day:active {
     border-bottom: 5px solid black;
+}
+
+.header--tab--night {
+    color: white;
+    border-bottom: 5px solid grey;
+}
+
+.header--tab--night:hover {
+    border-bottom: 5px solid lightgrey;
+}
+
+.header--tab--night:active {
+    border-bottom: 5px solid white;
 }
 
 article {
