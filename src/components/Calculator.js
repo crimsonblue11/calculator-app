@@ -22,11 +22,16 @@ export default function Calculator(props) {
         }
 
         if(event.type === "click") {
+            console.log(event);
             // from button
-            setCalcState(prevState => prevState + event.target.value);
+            if(event.target.value === "Ans") {
+                setCalcState(prevState => prevState + 'A');
+            } else {
+                setCalcState(prevState => prevState + event.target.value);
+            }
         } else {
             // from keyboard input, so need to sanity check
-            const keyboardRegex = /[0-9]|\+|-|\*|\/|\(|\)|\.|\^/;
+            const keyboardRegex = /[0-9]|\+|-|\*|\/|\(|\)|\.|\^|A/;
 
             if(keyboardRegex.test(event.key) === true) {
                 // case for regular input (i.e. numbers or operators)
@@ -115,7 +120,7 @@ export default function Calculator(props) {
                     <NumberButton style={props.style} value={")"} onClick={addToState} />
                     <NumberButton style={props.style} value={"."} onClick={addToState} />
                     <NumberButton style={props.style} value={"^"} onClick={addToState} />
-                    <NumberButton style={props.style} value={"A"} onClick={addToState} />
+                    <NumberButton style={props.style} value={"Ans"} onClick={addToState} />
                 </span>
                 <span className="calculator--functions">
                     <NumberButton style={props.style} value={"+"} onClick={addToState} />
