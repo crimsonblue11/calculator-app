@@ -1,11 +1,13 @@
 import {React, useState, useEffect} from "react"
 import NumberButton from "./NumberButton"
 import evaluateRPN from "./logic"
+import {ImCross} from "react-icons/im"
 
 export default function Calculator({isNight}) {
     const [calcState, setCalcState] = useState("");
     const [answer, setAnswer] = useState("0");
     const [displayOutput, setDisplayOutput] = useState(false);
+    const [error, setError] = useState("");
 
     /**
      * Adds an operator or operand to calcState depending on 
@@ -56,10 +58,15 @@ export default function Calculator({isNight}) {
      * the returned value.
      */
     function equalsAction() {
+        setError("");
         const ans = evaluateRPN(calcState, answer);
 
-        setAnswer(ans);
-        setDisplayOutput(true);
+        if(isNaN(ans)) {
+            setError("Error: Incorrect syntax");
+        } else {
+            setAnswer(ans);
+            setDisplayOutput(true);
+        }
     }
 
     /**
@@ -98,6 +105,12 @@ export default function Calculator({isNight}) {
 
     return (
         <div className="calculator">
+            {error && 
+                <div className="error-box">
+                    <ImCross className="error--icon" onClick={() => setError("")} />
+                    <p>{error}</p>
+                </div>
+            }
             <div className={isNight ? "calculator--screen--night" : "calculator--screen--day"}>
                 <p className="calculator--screen--input">{calcState}</p>
                 <p className="calculator--screen--output">
